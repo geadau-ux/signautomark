@@ -692,10 +692,10 @@
         const WU_RAW = JSON.parse(document.getElementById('wu-prompt-data').textContent);
         const WU_CODE = JSON.parse(document.getElementById('wu-code-data').textContent);
         const WU_LINKS = {
-            board: 'https://sap-uni-gas-welcome.netlify.app',
-            wall: 'https://script.google.com/macros/s/AKfycbzNdGdiCdcv1no1D2tR29iRgBhhQqD0yvK-bUCzP-BRC9NzeHBhuXmaYYRzs9-7YhHwVQ/exec?view=wall',
-            sheet: 'https://docs.google.com/spreadsheets/d/1flDU1FvPYWYYBse6vmkcWw1W2DhPtjpZzyP_ZFroBOc/edit?gid=438384363#gid=438384363',
-            folder: 'https://drive.google.com/drive/folders/1Z-1jl75MR4DtRoSCTerNZvgj-yd9wXDh'
+            board: 'https://starlit-toffee-5e63cd.netlify.app',
+            wall: 'https://script.google.com/macros/s/AKfycbwzIwK4RYLxMziULAsA1sx0pz_v02Ayg2lGp5DcDIa2i1eCfurWc6eQRtpNfvfBInlrFg/exec?view=wall',
+            sheet: 'https://docs.google.com/spreadsheets/d/1dMcRZajq2endL7AVv06hgDBnO4BDzgOw_dXWQx56G9E/edit?gid=643035288#gid=643035288',
+            folder: 'https://drive.google.com/drive/folders/16Pe2hhjVdRjWJeXuAO3c0-VRFdoxuwCy?usp=drive_link'
         };
         const WU_FILES = [
             { key: 'gs', name: 'Code.gs', icon: '⚙️', role: '後端', d: '讀寫試算表、存圖片、選單、單選場次；1.1 版含 doGet(?api=info)／doPost，給 Netlify 手寫板用。', place: 'GAS 專案預設的「程式碼.gs」，全選刪除後貼上（檔名可改成 Code）。' },
@@ -796,33 +796,31 @@
             wus4: ['手寫板改放 Netlify，學校帳號也能開', 'GAS 提供 doGet(?api=info) 與 doPost 兩個 API', '「② 取得網址」分開列出三個網址']
         });
         // ================= 指令修改器：可直接改的欄位、整段改寫、修改靈感 =================
-        // 標記語法：{{key|預設文字}}；同一個 key 出現多次＝同步（改一處、全部跟著改）
+        // 標記語法：{{key|預設文字}}；同一個 key 出現多次時，改一處、全部一起改
         const ED_KIND = {
             must:   { icon: '✏️', name: '必改',     pill: 'border-red-300 text-red-600 bg-red-50',            tip: '一定要換成你自己的內容' },
-            follow: { icon: '🔗', name: '跟著改',   pill: 'border-orange-300 text-orange-700 bg-orange-50',   tip: '改了相關的地方，這裡也要跟著改' },
             opt:    { icon: '✨', name: '選改',     pill: 'border-emerald-300 text-emerald-700 bg-emerald-50', tip: '可以依需求調整，不改也能用' },
-            sync:   { icon: '🔁', name: '同步',     pill: 'border-indigo-300 text-indigo-700 bg-indigo-50',   tip: '改一處，其他出現的地方會自動一起改' },
             keep:   { icon: '🔒', name: '建議保留', pill: 'border-slate-300 text-slate-500 bg-slate-50',      tip: '可以改，但建議保留原樣' }
         };
         const ED_META = {
             // Part 1
-            p1menu: { k: 'sync', g: '選單名稱' }, p1sheet: { k: 'sync', g: '批改分頁名稱' }, p1stop: { k: 'keep', g: '停點規則' },
-            p1basic: { k: 'opt', g: '基本資料題' }, p1basicn: { k: 'follow', g: '基本資料題', f: 'p1basic' }, p1basic2: { k: 'follow', g: '基本資料題', f: 'p1basic' },
-            p1basic3: { k: 'follow', g: '基本資料題', f: 'p1basic' }, p1basic4: { k: 'follow', g: '基本資料題', f: 'p1basic' },
+            p1menu: { k: 'opt', g: '選單名稱' }, p1sheet: { k: 'opt', g: '批改分頁名稱' }, p1stop: { k: 'keep', g: '停點規則' },
+            p1basic: { k: 'opt', g: '基本資料題' }, p1basicn: { k: 'opt', g: '基本資料題', f: 'p1basic' }, p1basic2: { k: 'opt', g: '基本資料題', f: 'p1basic' },
+            p1basic3: { k: 'opt', g: '基本資料題', f: 'p1basic' }, p1basic4: { k: 'opt', g: '基本資料題', f: 'p1basic' },
             p1var: { k: 'opt', g: '容錯寫法數量' },
-            p1hypA: { k: 'opt', g: '防洩題範例' }, p1hypB: { k: 'follow', g: '防洩題範例', f: 'p1hypA' }, p1hypC: { k: 'follow', g: '防洩題範例', f: 'p1hypA' },
+            p1hypA: { k: 'opt', g: '防洩題範例' }, p1hypB: { k: 'opt', g: '防洩題範例', f: 'p1hypA' }, p1hypC: { k: 'opt', g: '防洩題範例', f: 'p1hypA' },
             p1m1: { k: 'opt', g: '選單按鈕' }, p1m2: { k: 'opt', g: '選單按鈕' }, p1m3: { k: 'opt', g: '選單按鈕' }, p1m4: { k: 'opt', g: '選單按鈕' },
             p1rep: { k: 'opt', g: '成績單內容' },
             // Part 2
-            p2name: { k: 'opt', g: '系統名稱' }, p2title: { k: 'follow', g: '系統名稱', f: 'p2name' }, p2menu: { k: 'opt', g: '選單名稱' },
+            p2name: { k: 'opt', g: '系統名稱' }, p2title: { k: 'opt', g: '系統名稱', f: 'p2name' }, p2menu: { k: 'opt', g: '選單名稱' },
             p2model: { k: 'keep', g: 'AI 模型' }, p2gap: { k: 'opt', g: '批改設定' }, p2pub: { k: 'opt', g: '批改設定' },
             p2dim: { k: 'opt', g: '評量規準' }, p2full: { k: 'opt', g: '評量規準' }, p2style: { k: 'opt', g: '視覺風格' },
-            p2u1: { k: 'must', g: '範例單元' }, p2u1g: { k: 'follow', g: '範例單元', f: 'p2u1' }, p2u1q1: { k: 'follow', g: '範例單元', f: 'p2u1' }, p2u1q2: { k: 'follow', g: '範例單元', f: 'p2u1' },
-            p2u2: { k: 'must', g: '範例單元' }, p2u2q1: { k: 'follow', g: '範例單元', f: 'p2u2' }, p2u2q2: { k: 'follow', g: '範例單元', f: 'p2u2' },
-            p2u3: { k: 'must', g: '範例單元' }, p2u3q1: { k: 'follow', g: '範例單元', f: 'p2u3' }, p2u3q2: { k: 'follow', g: '範例單元', f: 'p2u3' },
+            p2u1: { k: 'must', g: '範例單元' }, p2u1g: { k: 'must', g: '範例單元', f: 'p2u1' }, p2u1q1: { k: 'must', g: '範例單元', f: 'p2u1' }, p2u1q2: { k: 'must', g: '範例單元', f: 'p2u1' },
+            p2u2: { k: 'must', g: '範例單元' }, p2u2q1: { k: 'must', g: '範例單元', f: 'p2u2' }, p2u2q2: { k: 'must', g: '範例單元', f: 'p2u2' },
+            p2u3: { k: 'must', g: '範例單元' }, p2u3q1: { k: 'must', g: '範例單元', f: 'p2u3' }, p2u3q2: { k: 'must', g: '範例單元', f: 'p2u3' },
             p2h: { k: 'opt', g: '畫布尺寸' }, p2add: { k: 'opt', g: '畫布尺寸' },
             // 開場畫押牆
-            wuctx: { k: 'opt', g: '使用情境' }, wutitle: { k: 'opt', g: '活動名稱' }, wuwho: { k: 'opt', g: '使用對象' }, wuwho2: { k: 'follow', g: '使用對象', f: 'wuwho' },
+            wuctx: { k: 'opt', g: '使用情境' }, wutitle: { k: 'opt', g: '活動名稱' }, wuwho: { k: 'opt', g: '使用對象' }, wuwho2: { k: 'opt', g: '使用對象', f: 'wuwho' },
             wumenu: { k: 'opt', g: '選單名稱' }, wucard: { k: 'opt', g: '輪播節奏' }, wuinv: { k: 'opt', g: '輪播節奏' }, wuevery: { k: 'opt', g: '輪播節奏' }, wupoll: { k: 'opt', g: '輪播節奏' },
             wucd: { k: 'opt', g: '防洗版' }, wumood: { k: 'opt', g: '字數上限' }, wuname: { k: 'opt', g: '字數上限' }, wuinvite: { k: 'opt', g: '邀請頁' },
             // 回覆 AI 的常用句
@@ -837,15 +835,15 @@
         // 修改靈感（apply：一鍵套用到欄位）
         const INSPIRE = {
             's1-a': { ideas: [
-                ['改選單名稱', '把「⚙️ 試卷管理」改成「📊 段考小幫手」。這個名稱在提示詞裡出現 4 次，改一處就會全部同步。', { p1menu: '📊 段考小幫手' }],
+                ['改選單名稱', '把「⚙️ 試卷管理」改成「📊 段考小幫手」。這個名稱在提示詞裡出現 4 次，改一處就會全部一起改。', { p1menu: '📊 段考小幫手' }],
                 ['改批改分頁名稱', '想讓分頁一看就懂，可以把「自動批改明細」改成「段考成績明細」。', { p1sheet: '段考成績明細' }],
                 ['保留停點規則', '「現在請只執行【階段一】」建議不要刪：拿掉後 AI 可能一次輸出三個階段，長程式碼很容易斷掉。', null]
-            ], tips: ['分頁名稱改了以後，階段二、三提到這個分頁的地方都會同步更新，不用一一找。'] },
+            ], tips: ['分頁名稱改了以後，階段二、三提到這個分頁的地方都會一起更新，不用一一找。'] },
             's1-b': { ideas: [
                 ['國中常用：多收學號', '基本資料改成「班級、座號、學號、姓名」，題數同時改成 4。', { p1basic: '班級、座號、學號、姓名', p1basicn: '4' }],
                 ['線上補考：只收座號姓名', '已經收集 Email 時，可以只留「座號、姓名」，題數改成 2。', { p1basic: '座號、姓名', p1basicn: '2' }],
                 ['數學填充題很多', '容錯寫法多列幾種，學生打法再奇怪也接得住。', { p1var: '8~12' }]
-            ], tips: ['基本資料題改了，「題數」和階段二、三的欄位名稱都要一起改（橘色「跟著改」標籤）。'] },
+            ], tips: ['基本資料題改了，「題數」和階段二、三的欄位名稱都要一起改（下方「🔗 連動提醒」列出在哪幾段）。'] },
             's1-d': { ideas: [
                 ['社會科名詞題', '答案「鄭成功」➔ 線索「明鄭時期人物」，範例「陳永華」。', { p1hypA: '鄭成功', p1hypB: '明鄭時期人物', p1hypC: '陳永華' }],
                 ['國語文修辭題', '答案「譬喻」➔ 線索「修辭法」，範例「排比」。', { p1hypA: '譬喻', p1hypB: '修辭法', p1hypC: '排比' }],
@@ -853,7 +851,7 @@
             ], tips: ['三個欄位要一起改：範例答案、上層概念、同類但不是答案的例子。範例只是示範給 AI 看，換成自己科目的例子 AI 比較好理解。'] },
             's2-a': { ideas: [
                 ['基本資料要和階段一一致', '如果階段一改成「班級、座號、學號、姓名」，這裡的欄位順序也要改成一樣。', { p1basic2: '班級、座號、學號、姓名' }]
-            ], tips: ['分頁名稱是同步欄位，改了會跟階段一、三一起變。'] },
+            ], tips: ['分頁名稱改了會跟階段一、三一起變。'] },
             's2-c': { ideas: [
                 ['沒有 Email 時用學號辨識', '學生沒有收集 Email 時，改用「班級＋學號」判斷是不是同一位學生。', { p1basic3: '班級＋學號' }]
             ], tips: ['要和階段一的基本資料題一致，系統才找得到這些欄位。'] },
@@ -863,14 +861,14 @@
             's3-a': { ideas: [
                 ['按鈕文字更口語', '例如「📝 批改新交卷」「📧 寄給選取的學生」，老師比較好懂。', { p1m1: '📝 批改新交卷', p1m3: '📧 寄給選取的學生' }],
                 ['考後檢討前先不給詳解', '成績單只附作答與得分，詳解留到課堂上講。', { p1rep: '每題作答、標準答案、得分' }]
-            ], tips: ['選單名稱是同步欄位：改這裡，階段一的總說明與階段三的 F5 提示也會一起改。'] },
+            ], tips: ['選單名稱改這裡，階段一的總說明與階段三的 F5 提示也會一起改。'] },
             's3-b': { ideas: [
                 ['選單換名字', '選單名稱改成「📊 段考小幫手」，F5 後的提示也會跟著變。', { p1menu: '📊 段考小幫手' }]
             ], tips: [] },
             'p2-0': { ideas: [
                 ['國語作文手寫批改', '系統名稱改成「國語作文手寫批改板」。', { p2name: '國語作文手寫批改板', p2title: '國語作文手寫批改板' }],
                 ['英文書寫練習', '系統名稱改成「英文書寫練習畫布」。', { p2name: '英文書寫練習畫布', p2title: '英文書寫練習畫布' }]
-            ], tips: ['系統名稱改了，模組一「網頁大標題」的預設值也要跟著改（橘色「跟著改」）。'] },
+            ], tips: ['系統名稱改了，模組一「網頁大標題」的預設值也要一起改。'] },
             'p2-1': { ideas: [
                 ['選單名稱換成科目', '例如「📐 數學作業批改」，同校多套系統時比較好分辨。', { p2menu: '📐 數學作業批改' }]
             ], tips: ['只改選單的顯示名稱，下方綁定的函式名稱不要動。'] },
@@ -890,7 +888,7 @@
             'p2-5': { ideas: [
                 ['換成自己的單元', '把三個範例單元改成自己這學期的單元名稱，Q1、Q2 的題目名稱也一起換。', null],
                 ['範例：國中數學', '題庫 1 改成「七上 一元一次方程式」，Q1「買文具的應用題」、Q2「年齡問題」。', { p2u1: '七上 一元一次方程式', p2u1g: '七年級', p2u1q1: '買文具的應用題', p2u1q2: '年齡問題' }]
-            ], tips: ['每個單元的年級與 Q1、Q2 名稱都是「跟著改」，要和單元名稱一起換。', '圖片網址可以先保留範例，之後再到試算表的 ⚙️題庫 換掉。'] },
+            ], tips: ['每個單元的年級與 Q1、Q2 名稱也是必改，要和單元名稱一起換。', '圖片網址可以先保留範例，之後再到試算表的 ⚙️題庫 換掉。'] },
             'p2-6': { ideas: [
                 ['平板直式作答', '畫布預設高度改成 600px，寫長算式比較不用一直加長。', { p2h: '600px' }],
                 ['每次加長多一點', '「增加畫布空間」改成每次 400px。', { p2add: '400px' }]
@@ -916,7 +914,7 @@
             'wu-6': { ideas: [
                 ['改成 LINE 群組', '邀請頁改成「加入 LINE 社群」，截圖換成群組 QR Code 的畫面。', { wuinvite: '加入 LINE 社群' }],
                 ['改成 Google Meet', '邀請頁改成「加入 Google Meet」，代碼欄放會議代碼。', { wuinvite: '加入 Google Meet' }]
-            ], tips: ['「使用對象」改了，「已有 N 位◯◯畫押」會一起改（橘色「跟著改」）。'] }
+            ], tips: ['「使用對象」改了，模組二「已有 N 位◯◯畫押」也要一起改。'] }
         };
 
         // 欄位：點一下直接改（失焦時存檔，Enter 完成，Esc 取消）
@@ -924,7 +922,7 @@
             const m = metaOf(k); const K = ED_KIND[m.k];
             const v = val !== undefined ? val : def;
             const changed = val !== undefined && val !== def;
-            const hint = m.k === 'follow' && m.f ? `跟著「${(ED_META[m.f] && ED_META[m.f].g) || ''}」一起改` : K.tip;
+            const hint = m.f ? `${K.tip}；要和「${m.g}」相關的地方一起改` : K.tip;
             return (
                 <span className={`whitespace-normal ${dim ? 'opacity-35' : ''}`}>
                     <span key={k + ':' + v} contentEditable={!dim} suppressContentEditableWarning spellCheck={false} title={`${K.icon} ${K.name}：${hint}`}
@@ -1123,7 +1121,7 @@
             const keys = P.bk[bid];
             const groups = [...new Set(keys.map(k => metaOf(k).g).filter(Boolean))];
             const links = groups.map(g => ({ g, where: P.blocks.filter(x => P.bk[x.id].some(k => metaOf(k).g === g)).map(x => P.tagOf(x)) })).filter(x => x.where.length > 1);
-            const syncs = keys.filter(k => metaOf(k).k === 'sync').map(k => ({ k, n: (P.raw.match(new RegExp('\\{\\{' + k + '\\|', 'g')) || []).length }));
+            const syncs = keys.map(k => ({ k, n: (P.raw.match(new RegExp('\\{\\{' + k + '\\|', 'g')) || []).length })).filter(x => x.n > 1);
             return (
                 <div className="fixed inset-0 z-50 flex justify-end" role="dialog" aria-label="修改靈感">
                     <div className="absolute inset-0 bg-slate-900/40 animate-fade-in" onClick={onClose}></div>
@@ -1147,7 +1145,7 @@
                             <div className="rounded-xl bg-amber-50 border border-amber-200 p-4 space-y-2">
                                 <p className="font-extrabold text-amber-700">🔗 連動提醒</p>
                                 <ul className="space-y-1.5 text-sm text-slate-700">
-                                    {syncs.map(s => <li key={s.k} className="flex gap-2"><span className="shrink-0">•</span><span>🔁「{vals[s.k] !== undefined ? vals[s.k] : P.defs[s.k]}」在指令裡出現 {s.n} 次，改一處會全部同步。</span></li>)}
+                                    {syncs.map(s => <li key={s.k} className="flex gap-2"><span className="shrink-0">•</span><span>「{vals[s.k] !== undefined ? vals[s.k] : P.defs[s.k]}」在指令裡出現 {s.n} 次，改一處會全部一起改。</span></li>)}
                                     {links.map(x => <li key={x.g} className="flex gap-2"><span className="shrink-0">•</span><span>「{x.g}」出現在：{x.where.map(w => '【' + w + '】').join('、')}</span></li>)}
                                 </ul>
                             </div>
